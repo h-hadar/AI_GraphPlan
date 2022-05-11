@@ -107,6 +107,7 @@ class PlanGraphLevel(object):
                 else:
                     p = Proposition(effect.get_name())
                     p.add_producer(action)
+                    self.proposition_layer.add_proposition(p)
                     proposition_dict[p.get_name()] = p
 
         # TODO : noOp case
