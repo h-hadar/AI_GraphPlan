@@ -110,7 +110,6 @@ class PlanGraphLevel(object):
                     self.proposition_layer.add_proposition(p)
                     proposition_dict[p.get_name()] = p
 
-        # TODO : noOp case
 
     def update_mutex_proposition(self):
         """
@@ -149,7 +148,8 @@ class PlanGraphLevel(object):
         You don't have to use this function
         """
         previous_layer_proposition = previous_layer.get_proposition_layer()
-        "*** YOUR CODE HERE ***"
+        self.update_action_layer(previous_layer_proposition)
+        self.update_proposition_layer()
 
 
 def mutex_actions(a1, a2, mutex_props):
