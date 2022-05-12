@@ -1,5 +1,6 @@
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning)
 import math
-from collections import Set
 
 from util import Pair
 import copy

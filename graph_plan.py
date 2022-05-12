@@ -1,3 +1,5 @@
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning)
 from util import Pair
 from proposition_layer import PropositionLayer
 from plan_graph_level import PlanGraphLevel

@@ -21,12 +21,14 @@ def create_domain_file(domain_file_name, n_, m_):
     domain_file.write('\nActions:\n')
 
     # action - pick up disc from pole with another disc below it
-    for disc, pole, below in itertools.product(disks, pegs, disks):
-        name = 'pick_' + disc + '_from_' + pole + '_above_' + below
-        preconds = ['top_' + pole + '_' + disc, 'arm_free', disc + '_on_disc_' + below]
-        add_list = ['top_' + pole + '_' + below, 'in_arm_' + disc]
-        del_list = ['arm_free', 'top_' + pole + '_' + disc, disc + '_on_disc_' + below]
-        write_actions(add_list, del_list, domain_file, name, preconds)
+    for disc_index, pole in itertools.product(range(n_), pegs):
+        disc = disks[disc_index]
+        for below in disks[disc_index+1:]:
+            name = 'pick_' + disc + '_from_' + pole + '_above_' + below
+            preconds = ['top_' + pole + '_' + disc, 'arm_free', disc + '_on_disc_' + below]
+            add_list = ['top_' + pole + '_' + below, 'in_arm_' + disc]
+            del_list = ['arm_free', 'top_' + pole + '_' + disc, disc + '_on_disc_' + below]
+            write_actions(add_list, del_list, domain_file, name, preconds)
 
     # pick up disc from pole on floor
     for disc, pole in itertools.product(disks, pegs):
