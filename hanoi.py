@@ -12,7 +12,7 @@ def create_domain_file(domain_file_name, n_, m_):
     for p in disks_on_pole + disks_not_on_pole:
         domain_file.write(p + " ")
     domain_file.write('\nActions:\n')
-    # action - pick up disc from pole with another disc below it to another pole where a disc below it
+    # action - pick up disc from pole to another pole
     for disc_index, p1 in itertools.product(range(n_), pegs):
         disc = disks[disc_index]
         for p2 in pegs:
@@ -22,8 +22,8 @@ def create_domain_file(domain_file_name, n_, m_):
                 add_list = [disc + '_on_' + p2, disc + '_not_on_' + p1]
                 del_list = [disc + '_on_' + p1, disc + '_not_on_' + p2]
                 for d in disks[:disc_index]:
-                    preconds.append(d + '_not_on_' + p1)
-                    preconds.append(d + '_not_on_' + p2)
+                    preconds.append(d + '_not_on_' + p1) # to make sure disc is the top disc on the p1
+                    preconds.append(d + '_not_on_' + p2) # to make sure there no smaller disks than disc on p2
                 write_actions(add_list, del_list, domain_file, name, preconds)
     domain_file.close()
 
@@ -43,13 +43,13 @@ def create_problem_file(problem_file_name_, n_, m_):
     disks = ['d_%s' % i for i in list(range(n_))]  # [d_0,..., d_(n_ - 1)]
     pegs = ['p_%s' % i for i in list(range(m_))]  # [p_0,..., p_(m_ - 1)]
     problem_file = open(problem_file_name_, 'w')  # use problem_file.write(str) to write to problem_file
-    all_poles_on_disc(disks, m_, n_, pegs, problem_file, 0, "Initial state:")
-    all_poles_on_disc(disks, m_, n_, pegs, problem_file, m_-1, "Goal state:")
+    all_discs_on_pole(disks, m_, n_, pegs, problem_file, 0, "Initial state:")
+    all_discs_on_pole(disks, m_, n_, pegs, problem_file, m_-1, "Goal state:")
 
     problem_file.close()
 
 
-def all_poles_on_disc(disks, m_, n_, pegs, problem_file, desired_pole, title):
+def all_discs_on_pole(disks, m_, n_, pegs, problem_file, desired_pole, title):
     initial_state = []
     for disc_index in range(n_):
         for pole_index in range(m_):
